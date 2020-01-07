@@ -1,0 +1,63 @@
+
+// Copyright 2015 gRPC authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "at.bronzels.crawler";
+option java_outer_classname = "CrawlerProto";
+
+package pb;
+
+import "common.proto";
+
+// The crawler service definition.
+service Crawler {
+  // Sends a greeting
+  rpc CrawlNews (CrawlNewsRequest) returns (CrawlNewsReply) {}
+  rpc CrawlNewsStreamServer (CrawlNewsRequest) returns (stream CrawlNewsStreamServerReply) {}
+}
+
+// The news request message.
+message CrawlNewsRequest {
+    bool myasync = 1;
+    string user_agent = 2;
+    uint32 parallelism = 3;
+    uint32 random_delay = 4;
+    string url2crawl = 5;
+    string news_entry = 6;
+    repeated string queries2extract = 7;
+    string script_published_at = 8;
+    Logflag logflag = 9;
+}
+
+// The news response message
+message CrawlNewsReply {
+  uint32 crawled = 1;
+  string logged = 2;
+}
+
+// The stream server news response message
+message CrawlNewsStreamServerReply {
+	string entry_url = 1;
+	string url = 2;
+	string url_id = 3;
+	string quotee_url = 4;
+	string quotee_url_id = 5;
+	string title = 6;
+	int64 published_at = 7;
+	string contents = 8;
+    int64 crawled_at = 9;
+}
